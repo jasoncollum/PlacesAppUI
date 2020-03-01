@@ -7,6 +7,7 @@ import {
     VALIDATOR_REQUIRE,
     VALIDATOR_MINLENGTH
 } from '../../shared/util/validators';
+import './PlaceForm.css';
 
 const PLACES = [
     {
@@ -36,7 +37,7 @@ const PLACES = [
 ];
 
 const UpdatePlace = () => {
-    const placeId = useParams().placdId;
+    const placeId = useParams().placeId;
 
     const identifiedPlace = PLACES.find(p => p.id === placeId);
     if (!identifiedPlace) {
@@ -45,7 +46,7 @@ const UpdatePlace = () => {
         );
     }
 
-    return <form>
+    return <form className='place-form'>
         <Input
             id='title'
             element='input'
