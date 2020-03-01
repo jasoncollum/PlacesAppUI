@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 
 import Input from '../../shared/components/FormElements/Input';
 import Button from '../../shared/components/FormElements/Button';
+import Card from '../../shared/components/UIElements/Card';
 import {
     VALIDATOR_REQUIRE,
     VALIDATOR_MINLENGTH
@@ -25,7 +26,7 @@ const PLACES = [
     },
     {
         id: 'p2',
-        title: 'Empire State Building',
+        title: 'Emp. State Building',
         description: 'One of the most famous skyscrapers in the world!',
         imageURL: 'http://upload.wikimedia.org/wikipedia/commons/d/df/NYC_Empire_State_Building.jpg',
         address: '20 W 34th St, New York, NY 10001',
@@ -57,18 +58,20 @@ const UpdatePlace = () => {
     const identifiedPlace = PLACES.find(p => p.id === placeId);
 
     useEffect(() => {
-        setFormData({
-            title: {
-                value: identifiedPlace.title,
-                isValid: true
+        if (identifiedPlace) {
+            setFormData({
+                title: {
+                    value: identifiedPlace.title,
+                    isValid: true
+                },
+                description: {
+                    value: identifiedPlace.description,
+                    isValid: true
+                }
             },
-            description: {
-                value: identifiedPlace.description,
-                isValid: true
-            }
-        },
-            true
-        );
+                true
+            );
+        }
         setIsLoading(false)
     }, [setFormData, identifiedPlace]);
 
@@ -79,13 +82,19 @@ const UpdatePlace = () => {
 
     if (!identifiedPlace) {
         return (
-            <div className='center'><h2>Could not find place</h2></div>
+            <div className='center'>
+                <Card>
+                    <h2>Could not find place</h2>
+                </Card>
+            </div>
         );
     }
 
     if (isLoading) {
         return (
-            <div className='center'><h2>Loading...</h2></div>
+            <div className='center'>
+                <h2>Loading...</h2>
+            </div>
         )
     }
 

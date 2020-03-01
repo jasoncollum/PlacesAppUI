@@ -18,7 +18,7 @@ const PLACES = [
     },
     {
         id: 'p2',
-        title: 'Empire State Building',
+        title: 'Emp. State Building',
         description: 'One of the most famous skyscrapers in the world!',
         imageURL: 'http://upload.wikimedia.org/wikipedia/commons/d/df/NYC_Empire_State_Building.jpg',
         address: '20 W 34th St, New York, NY 10001',
