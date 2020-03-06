@@ -3,6 +3,8 @@ import React, { useState, useContext } from 'react';
 import Card from '../../shared/components/UIElements/Card';
 import Input from '../../shared/components/FormElements/Input';
 import Button from '../../shared/components/FormElements/Button';
+import ErrorModal from '../../shared/components/UIElements/ErrorModal';
+import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
 import {
     VALIDATOR_EMAIL,
     VALIDATOR_MINLENGTH,
@@ -73,6 +75,9 @@ const Auth = props => {
                 });
 
                 const responseData = await response.json();
+                if (!response.ok) {
+                    throw new Error(responseData.message);
+                }
                 console.log(responseData);
                 setIsLoading(false);
                 auth.login();
@@ -84,46 +89,54 @@ const Auth = props => {
         }
     };
 
+    const errorHandler = () => {
+        setError(null);
+    };
+
     return (
-        <Card className='authentication'>
-            <h2>Login Required</h2>
-            <hr />
-            <form className='auth-form' onSubmit={authSubmitHandler}>
-                {!isLoginMode && <Input
-                    id='name'
-                    element='input'
-                    type='text'
-                    label='Your Name'
-                    validators={[VALIDATOR_REQUIRE()]}
-                    errorText='Please enter a name'
-                    onInput={inputHandler}
-                />}
-                <Input
-                    id='email'
-                    element='input'
-                    type='email'
-                    label='Email'
-                    validators={[VALIDATOR_EMAIL()]}
-                    errorText='Please enter a valid email address'
-                    onInput={inputHandler}
-                />
-                <Input
-                    id='password'
-                    element='input'
-                    type='password'
-                    label='Password'
-                    validators={[VALIDATOR_MINLENGTH(7)]}
-                    errorText='Please enter a password with at least 7 characters'
-                    onInput={inputHandler}
-                />
-                <Button type='submit' disabled={!formState.isValid}>
-                    {isLoginMode ? 'SIGN IN' : 'SIGN UP'}
+        <React.Fragment>
+            <ErrorModal error={error} onClear={errorHandler} />
+            <Card className='authentication'>
+                {isLoading && <LoadingSpinner asOverlay />}
+                <h2>Login Required</h2>
+                <hr />
+                <form className='auth-form' onSubmit={authSubmitHandler}>
+                    {!isLoginMode && <Input
+                        id='name'
+                        element='input'
+                        type='text'
+                        label='Your Name'
+                        validators={[VALIDATOR_REQUIRE()]}
+                        errorText='Please enter a name'
+                        onInput={inputHandler}
+                    />}
+                    <Input
+                        id='email'
+                        element='input'
+                        type='email'
+                        label='Email'
+                        validators={[VALIDATOR_EMAIL()]}
+                        errorText='Please enter a valid email address'
+                        onInput={inputHandler}
+                    />
+                    <Input
+                        id='password'
+                        element='input'
+                        type='password'
+                        label='Password'
+                        validators={[VALIDATOR_MINLENGTH(7)]}
+                        errorText='Please enter a password with at least 7 characters'
+                        onInput={inputHandler}
+                    />
+                    <Button type='submit' disabled={!formState.isValid}>
+                        {isLoginMode ? 'SIGN IN' : 'SIGN UP'}
+                    </Button>
+                </form>
+                <Button inverse onClick={switchModeHandler}>
+                    SWITCH TO {isLoginMode ? 'SIGN UP' : 'SIGN IN'}
                 </Button>
-            </form>
-            <Button inverse onClick={switchModeHandler}>
-                SWITCH TO {isLoginMode ? 'SIGN UP' : 'SIGN IN'}
-            </Button>
-        </Card>
+            </Card>
+        </React.Fragment>
     )
 };
 
