@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 
 import UsersList from '../components/UsersList';
+import ErrorModal from '../../shared/components/UIElements/ErrorModal';
+import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
 
 const Users = () => {
     const [isLoading, setIsLoading] = useState(false);
@@ -31,7 +33,17 @@ const Users = () => {
         setError(null);
     };
 
-    return <UsersList items={USERS} />;
+    return (
+        <React.Fragment>
+            <ErrorModal error={error} onClear={errorHandler} />
+            {isLoading && (
+                <div className='center'>
+                    <LoadingSpinner asOverlay />
+                </div>
+            )}
+            {!isLoading && usersData && <UsersList items={usersData} />}
+        </React.Fragment>
+    );
 }
 
 export default Users;
