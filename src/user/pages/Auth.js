@@ -38,7 +38,8 @@ const Auth = () => {
         if (!isLoginMode) { // set form inputs for Sign UP
             setFormData({
                 ...formState.inputs,
-                name: undefined
+                name: undefined,
+                image: undefined
             },
                 formState.inputs.email.isValid && formState.inputs.password.isValid);
         } else { // set form inputs for Sign IN
@@ -46,6 +47,10 @@ const Auth = () => {
                 ...formState.inputs,
                 name: {
                     value: '',
+                    isValid: false
+                },
+                image: {
+                    value: null,
                     isValid: false
                 }
             },
@@ -57,6 +62,8 @@ const Auth = () => {
 
     const authSubmitHandler = async e => {
         e.preventDefault();
+
+        console.log("FORM_STATE::", formState.inputs)
 
         if (isLoginMode) {
             try {
@@ -113,7 +120,9 @@ const Auth = () => {
                         errorText='Please enter a name'
                         onInput={inputHandler}
                     />}
-                    {!isLoginMode && <ImageUpload center id='image' />}
+                    {!isLoginMode && (
+                        <ImageUpload center id='image' onInput={inputHandler} />
+                    )}
                     <Input
                         id='email'
                         element='input'
