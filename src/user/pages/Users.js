@@ -17,8 +17,9 @@ const Users = () => {
                 setUsersData(responseData.users);
             } catch (err) {
                 // ok to leave empty
+                console.log("CATCH ERROR")
             }
-        }
+        };
         fetchUsers();
     }, [sendRequest]);
 

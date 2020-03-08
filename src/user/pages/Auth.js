@@ -15,7 +15,7 @@ import { useHttpClient } from '../../shared/hooks/http-hook';
 import { AuthContext } from '../../shared/context/auth-context';
 import './Auth.css';
 
-const Auth = props => {
+const Auth = () => {
     const auth = useContext(AuthContext);
     const [isLoginMode, setIsLoginMode] = useState(true);
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
@@ -59,7 +59,7 @@ const Auth = props => {
 
         if (isLoginMode) {
             try {
-                await sendRequest(
+                const responseData = await sendRequest(
                     'http://localhost:5000/api/users/login',
                     'POST',
                     JSON.stringify({
@@ -69,13 +69,13 @@ const Auth = props => {
                     { 'Content-Type': 'application/json' }
                 );
 
-                auth.login();
+                auth.login(responseData.user.id);
             } catch (err) {
                 // ok to be empty block, error handling in useHttpClient hook
             }
         } else {
             try {
-                await sendRequest(
+                const responseData = await sendRequest(
                     'http://localhost:5000/api/users/signup',
                     'POST',
                     JSON.stringify({
@@ -88,7 +88,7 @@ const Auth = props => {
                     }
                 );
 
-                auth.login();
+                auth.login(responseData.user.id);
             } catch (err) {
                 // ok to be empty block
             }
