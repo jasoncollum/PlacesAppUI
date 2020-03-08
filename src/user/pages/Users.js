@@ -9,11 +9,8 @@ const Users = () => {
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
     const [usersData, setUsersData] = useState();
 
-    console.log("USERS DATA::", usersData)
     useEffect(() => {
-        console.log("USE EFFECT START")
         const fetchUsers = async () => {
-            console.log("FETCH USERS START")
             try {
                 const responseData = await sendRequest('http://localhost:5000/api/users');
 
