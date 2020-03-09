@@ -75,7 +75,7 @@ const Auth = () => {
                     { 'Content-Type': 'application/json' }
                 );
 
-                auth.login(responseData.user.id);
+                auth.login(responseData.userId, responseData.token);
             } catch (err) {
                 // ok to be empty block, error handling in useHttpClient hook
             }
@@ -92,7 +92,7 @@ const Auth = () => {
                     formData
                 );
 
-                auth.login(responseData.user.id);
+                auth.login(responseData.userId, responseData.token);
             } catch (err) {
                 // ok to be empty block
             }
